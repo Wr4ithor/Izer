@@ -7,7 +7,7 @@ RGB_TO_XYZ = np.array([
 ], dtype=np.float64)
 
 WHITE_POINT = np.array([
-    95.047,
-    100.000,
-    108.883
+    0.95047,
+    1.0,
+    1.08883
 ])
