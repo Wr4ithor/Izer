@@ -1,0 +1,40 @@
+import numpy as np
+from PIL import Image
+from pathlib import Path
+
+# Temp path
+IMG = Path("tests/test.jpeg")
+
+
+def _is_img_file(file: Path) -> bool:
+    """Checks whether a file is an image file or not"""
+    if not file.is_file():
+        return False
+
+    try:
+        with Image.open(file) as img:
+            img.verify()
+        return True
+    except (IOError, OSError, Image.UnidentifiedImageError):
+        return False
+
+
+def open_image(path: Path):
+    """Opens an image using Pillow"""
+    if not path or not path.exists():
+        raise ValueError(f"'{path}' doesn't exists")
+
+    try:
+        if not _is_img_file(path):
+            raise ValueError(f"{path} is not an image")
+        
+        img = Image.open(path) # Opens an image
+        return img
+    except (Image.UnidentifiedImageError, Exception) as e:
+        raise e
+
+
+image = open_image(IMG)
+print("Type:", type(image))
+print(f"Size of {IMG}: {image.size}")
+print(f"Shape of {IMG}: {image.shape}")
