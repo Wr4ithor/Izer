@@ -6,7 +6,8 @@ from pathlib import Path
 from constants import RGB_TO_XYZ, WHITE_POINT
 
 # Temp path
-IMG = Path("tests/test.jpeg")
+# IMG = Path("tests/test.jpeg")
+IMG = Path("tests/test1.jpg")
 
 
 def _is_img_file(file: Path) -> bool:
@@ -22,7 +23,7 @@ def _is_img_file(file: Path) -> bool:
         return False
 
 
-def _open_image(path: Path) -> PIL:
+def _open_image(path: Path) -> Image.Image:
     """Opens an image using Pillow"""
     if not path or not path.exists():
         raise ValueError(f"'{path}' doesn't exists")
@@ -32,13 +33,13 @@ def _open_image(path: Path) -> PIL:
             raise ValueError(f"{path} is not an image")
         
         img = Image.open(path) # Opens an image
-        img.convert('RGB')
+        img = img.convert('RGB')
         return img
     except (Image.UnidentifiedImageError, Exception) as e:
         raise e
 
 
-def _img_to_rgb(image: PIL):
+def _img_to_rgb(image: Image.Image):
     """Converts a PIL object into NumPy array"""
     try:
         return np.asarray(image)
@@ -68,14 +69,14 @@ def _xyz_to_lab(xyz):
     # Nonlinear transformation
     xyz_nlt = np.where(
         xyz_norm > 0.008856,
-        xyz_norm - xyz_norm ** (1/3),
+        xyz_norm ** (1/3),
         7.787 * xyz_norm + 16/116
     )
 
     # Splitting XYZ to X, Y and Z
-    fx = xyz[..., 0]
-    fy = xyz[..., 1]
-    fz = xyz[..., 2]
+    fx = xyz_nlt[..., 0]
+    fy = xyz_nlt[..., 1]
+    fz = xyz_nlt[..., 2]
 
     L = 116 * fy - 16
     a = 500 * (fx - fy)
