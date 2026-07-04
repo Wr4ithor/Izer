@@ -1,0 +1,22 @@
+# Environments and Credentials
+/.venv/
+.env
+
+# Editor and OS Settings
+.vscode/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Project Outputs and Testing
+tests/
+results/
+
+# Media Assets
+*.jpeg
+*.jpg
+*.png
+
+
