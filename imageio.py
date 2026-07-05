@@ -16,7 +16,7 @@ def open_image(path: Path) -> np.ndarray:
         raise e
 
 
-def save(
+def save_image(
         rgb_array: np.ndarray,
         dest_dir: Path = Path("results/"),
         name: str = "output",
