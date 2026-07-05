@@ -1,14 +1,6 @@
-import PIL
 import numpy as np
-from PIL import Image
-from pathlib import Path
 
 from constants import RGB_TO_XYZ, WHITE_POINT, DELTA, EPSILON, XYZ_TO_RGB
-
-# Temp path
-# IMG = Path("tests/test.jpeg")
-IMG = Path("tests/test1.jpg")
-IMG2 = Path("tests/test.jpeg")
 
 
 def _img_to_rgb(image: Image.Image) -> np.ndarray:
@@ -16,20 +8,6 @@ def _img_to_rgb(image: Image.Image) -> np.ndarray:
     try:
         return np.asarray(image, dtype=np.uint8)
     except Exception as e:
-        raise e
-
-
-def open_image(path: Path) -> np.ndarray:
-    """Opens an image using Pillow"""
-    if not path or not path.exists():
-        raise ValueError(f"'{path}' doesn't exists")
-
-    try:
-        img = Image.open(path) # Opens an image
-        img = img.convert('RGB')
-        rgb = _img_to_rgb(img)
-        return rgb
-    except (Image.UnidentifiedImageError, Exception) as e:
         raise e
 
 
@@ -73,7 +51,7 @@ def _xyz_to_lab(xyz: np.ndarray) -> np.ndarray:
     return lab
 
 
-def rgb_to_lab(rgb: np.ndarray) -> np.ndarray:
+def rgb_to_lab(egb: np.ndarray) -> np.ndarray:
     rgb = _srgb_to_linear(rgb)
 
     # RGB to XYZ
