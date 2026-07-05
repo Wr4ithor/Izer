@@ -145,3 +145,8 @@ LATTE_RAW = {
 
 MOCHA = _build_palette("Mocha", MOCHA_RAW)
 LATTE = _build_palette("Latte", LATTE_RAW)
+
+available_palettes = {
+    "catppuccin-mocha": MOCHA,
+    "catppuccin-latte": LATTE
+}
