@@ -1,5 +1,5 @@
 import numpy as np
-
+from PIL import Image
 from constants import RGB_TO_XYZ, WHITE_POINT, DELTA, EPSILON, XYZ_TO_RGB
 
 
@@ -51,7 +51,7 @@ def _xyz_to_lab(xyz: np.ndarray) -> np.ndarray:
     return lab
 
 
-def rgb_to_lab(egb: np.ndarray) -> np.ndarray:
+def rgb_to_lab(rgb: np.ndarray) -> np.ndarray:
     rgb = _srgb_to_linear(rgb)
 
     # RGB to XYZ
