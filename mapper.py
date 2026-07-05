@@ -2,9 +2,6 @@ import numpy as np
 from palettes import Palette
 
 
-CHUNK_SIZE = 8124
-
-
 def _validate_inputs(image: np.ndarray, palette: Palette) -> None:
     if len(image.shape) != 3 or image.shape[2] != 3:
         raise ValueError(f"The image must be of the shape (H, W, 3). Got: {image.shape}")
@@ -29,11 +26,11 @@ def _calc_distances(image: np.ndarray, palette: np.ndarray) -> np.ndarray:
 
 def _map_colors(distance: np.ndarray, palette: Palette) -> np.ndarray:
     nearest_color = np.argmin(distance, axis=1)
-    mapped_pixels = palette.rgb[nearest_color]
+    mapped_pixels = palette.lab[nearest_color]
     return mapped_pixels
 
 
-def map_image(image: np.ndarray, palette: Palette) -> np.ndarray:
+def map_image(image: np.ndarray, palette: Palette, chunk_size: int = 8192) -> np.ndarray:
     _validate_inputs(image, palette)
     flat, H, W = _flatten(image)
     
@@ -41,8 +38,8 @@ def map_image(image: np.ndarray, palette: Palette) -> np.ndarray:
     
     i = 0 # REMOVE THIS!!
 
-    for start in range(0, len(flat), CHUNK_SIZE):
-        end = start + CHUNK_SIZE
+    for start in range(0, len(flat), chunk_size):
+        end = start + chunk_size
         chunk = flat[start:end]
         
         distance = _calc_distances(chunk, palette)
