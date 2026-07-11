@@ -11,6 +11,7 @@ def orchestrate(
         dest_dir: Path = "results/",
         name: str = "output",
         fmt: str = "png",
+        # workers: int = 1. For future
         chunk_size: int = 8192
     ) -> None:
     if not palette_name.lower() in available_palettes.keys():

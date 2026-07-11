@@ -14,6 +14,7 @@ class PaletteColor:
 @dataclass(frozen=True)
 class Palette:
     name: str
+    family: str | None
     colors: list[PaletteColor]
     rgb: np.ndarray
     lab: np.ndarray
@@ -44,7 +45,7 @@ def _hex_to_rgb(hex_val: str) -> tuple[int, int, int]:
     )
 
 
-def _build_palette(theme_name: str, theme_colors: dict[str, str]) -> Palette:
+def _build_palette(theme_name: str, theme_family: str, theme_colors: dict[str, str]) -> Palette:
     colors = []
     for color_name, color_hex in theme_colors.items():
         rgb = _hex_to_rgb(color_hex)
@@ -62,7 +63,7 @@ def _build_palette(theme_name: str, theme_colors: dict[str, str]) -> Palette:
     rgb = np.array([color.rgb for color in colors], dtype=np.uint8)
     lab = np.array([color.lab for color in colors], dtype=np.float64)
 
-    return Palette(name=theme_name, colors=colors, rgb=rgb, lab=lab)
+    return Palette(name=theme_name, family=theme_family, colors=colors, rgb=rgb, lab=lab)
 
 # ---- PALETTES ----
 # Catppuccin
@@ -143,8 +144,8 @@ LATTE_RAW = {
     "lavender": "#7287fd",
 }
 
-MOCHA = _build_palette("Mocha", MOCHA_RAW)
-LATTE = _build_palette("Latte", LATTE_RAW)
+MOCHA = _build_palette("Mocha", "Catppuccin", MOCHA_RAW)
+LATTE = _build_palette("Latte", "Catppuccin", LATTE_RAW)
 
 available_palettes = {
     "catppuccin-mocha": MOCHA,
